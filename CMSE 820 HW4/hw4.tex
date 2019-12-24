@@ -1,0 +1,278 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usetikzlibrary{automata,positioning}
+\usepackage{pdfpages}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#4}
+\newcommand{\hmwkDueDate}{October 6, 2019}
+\newcommand{\hmwkClass}{CMSE 820}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassInstructor}{Professor Yuying Xie}
+\newcommand{\hmwkAuthorName}{\textbf{Boyao Zhu}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 11:59pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+\textbf{Solution}\\
+To find the second principal component, \(\textbf{u}_2\), we use the fact that \(\textbf{u}_1^T\textbf{x} \ \text{and}\ \textbf{u}_2^T\textbf{x}\) need to be uncorrelated.  This implies that \(\textbf{u}_2\) is orthogonal to \(\textbf{u}_1\).  Indeed from
+
+\[
+\mathbb{E}[(\textbf{u}_1^T\textbf{x})(\textbf{u}_2^T\textbf{x})] = \mathbb[\textbf{u}_1^T\textbf{xx}^T\textbf{u}_2] = \textbf{u}_1^T\Sigma_x\textbf{u}_2 = \lambda\textbf{u}_1^T\textbf{u}_2 = 0
+\]
+and \(\lambda_1 \neq 0\), we have \(\textbf{u}_1^T\textbf{u}_2 = 0 \).  Thus, to find \(\textbf{u}_2\), we need to solve the following optimization problem:
+\[
+\max_{\textbf{u}_2\in\mathbb{R}^D} \textbf{u}_2^T\Sigma_x\textbf{u}_2 \qquad \text{s.t.} \qquad \textbf{u}_2^T\textbf{u}_2=1 \qquad \textbf{u}_1^T\textbf{u}_2=0
+\]
+we define the Lagrangian
+\[
+\mathcal{L} = \textbf{u}_2^T\Sigma_x\textbf{u}_2 + \lambda_2(1-\textbf{u}_2^T\textbf{u}_2) + \gamma\textbf{u}_1^T\textbf{u}_2
+\]
+The necessary conditions for (\(\textbf{u}_2, \lambda_2, \gamma\)) to be an extremum are
+\[
+\Sigma_x\textbf{u}_2 + \frac{\gamma}{2}\textbf{u}_1 = \lambda_2\textbf{u}_2, \qquad \text{s.t.} \qquad \textbf{u}_2^T\textbf{u}_2=1 \qquad \textbf{u}_1^T\textbf{u}_2=0
+\]
+from which it follows that \(\textbf{u}_1^T\Sigma_x\textbf{u}_2 +\frac{\gamma}{2}\textbf{u}_1^T\textbf{u}_1 = \lambda_1\textbf{u}_1^T\textbf{u}_2 +\frac{\gamma}{2} = \lambda_2\textbf{u}_1^T\textbf{u}_2 \), and so \(\gamma=2(\lambda_2-\lambda_1)\textbf{u}_1^T\textbf{u}_2=0\).  This implies that \(\Sigma_x\textbf{u}_2 = \lambda_2\textbf{u}_2\) and that the extremum value is \(\textbf{u}_2^T\Sigma_x\textbf{u}_2 = \lambda_2 = \text{Var}(y_2)\).  Therefore, \(\textbf{u}_2\) is the leading eigenvector of \(\Sigma_x\) restricted to the orthogonal complement of \(\textbf{u}_1\).  Since the eigenvalues of \(\Sigma_x\) are distinct, \(\textbf{u}_2\) is the eigenvector of \(\Sigma_x\) associated with its second-largest eigenvalue.\\
+
+To find the remaining principal components, we use that fact that for all for \(i\neq j, y_i = \textbf{u}_i^T\textbf{x}\) and \(y_i = \textbf{u}_j^T\textbf{x}\) need to be uncorrelated, hence
+\[
+\text{Var}(y_iy_j) = \mathbb{E}[\textbf{u}_i^T\textbf{xx}^T\textbf{u}_j] = \textbf{u}_i^T\Sigma_x\textbf{u}_j=0
+\]
+ Using induction, assume that \(\textbf{u}_1, \cdot\cdot\cdot, \textbf{u}_{i-1}\) are the unit-length eigenvectors of \(\Sigma_x\) associated with its top \(i-1\) eigenvalues, and let \(\textbf{u}_i\) be the vector defining the \(i\)th principal component, \(y_i\).  Then, \(\Sigma_x\textbf{u}_j = \lambda_j\textbf{u}_j\) for \(j = 1, \cdot\cdot\cdot, i-1\) and \(\textbf{u}_i^T\Sigma_x\textbf{u}_j=\lambda_j\textbf{u}_i^T\textbf{u}_j=0\) for all \(j = 1, \cdot\cdot\cdot, i-1\).  Since \(\lambda_j>0\), we have that \(\textbf{u}_i^T\textbf{u}_j=0\) for all \(j = 1, \cdot\cdot\cdot, i-1\).  To compute \(\textbf{u}_i\), we build the Lagrangian
+ \[
+ \mathcal{L} = \textbf{u}_i^T\Sigma_x\textbf{u}_i+\lambda_i(1-\textbf{u}_i^T\textbf{u}_i)+\sum_{j=1}^{i-1}\gamma_i\textbf{u}_i^T\textbf{u}_j
+ \]
+ The necessary condition for (\(\textbf{u}_i, \lambda_i, \gamma_1, \cdot\cdot\cdot, \gamma_{j-1}\)) to be an extremum are
+ \[
+ \Sigma_x\textbf{u}_i + \sum_{j=1}^{i-1}\frac{\gamma_j}{2}\textbf{u}_j=\lambda_i\textbf{u}_i, \ \qquad \textbf{u}_i^T\textbf{u}_i = 1 \ \ \ \text{and} \ \ \ \textbf{u}_i^T\textbf{u}_j=0, \quad j = 1, \cdot\cdot\cdot, i-1
+ \]
+ from which it follows that for all \(j = 1, \cdot\cdot\cdot, i-1\), we have \(\textbf{u}_j^T\Sigma_x\textbf{u}_i + \frac{\gamma_j}{2} = \lambda_j\textbf{u}_j^T\textbf{u}_i+\frac{\gamma_j}{2}=\lambda_i\textbf{u}_j^T\textbf{u}_i\), and so \(\gamma_j=2(\lambda_j-\lambda_i)\textbf{u}_j^T\textbf{u}_i=0\).  Since the associated extremum value is \(\textbf{u}_i^T\Sigma_x\textbf{u}_i=\lambda_i=\lambda_i=\text{Var}(y_i), \textbf{u}_i\) is the leading eigenvector of \(\Sigma_x\) restricted to the orthogonal complement of the span of \(\textbf{u}_1, \cdot\cdot\cdot, \textbf{u}_{i-1}\).  Since the eigenvalues of \(Sigma_x\) are distinct, \(\textbf{u}_i\) is the eigenvector of \(\Sigma_x\) associated with the \(i\)th-largest eigenvalue.  Therefore, when the eigenvalues of \(\Sigma_x\) are distinct, each eigenvector \(\textbf{u}_i\) is unique, and hence so are the principal components of \(\textbf{x}\).
+ 
+ 
+\end{homeworkProblem}
+
+
+
+\begin{homeworkProblem}
+\textbf{Solution}\\
+\textbf{a.}\\
+Since A is a symmetric real matrix \(\in\mathbb{R}^{n\times n}\), its eigenvalues are real and its eigenvectors form a basis of \(\mathbb{R}^D\).  Moreover, the eigenvectors are unique, and the eigenvectors corresponding to different eigenvalues are orthogonal to each other.  Since the problem is to prove maximum of \(v^TAv = \lambda_1\), the largest eigenvalue of A, which is a constrained optimization problem.  we could use the method of Lagrange multipliers with constraint, \(\lVert v\rVert_2^2 = v^Tv = 1\).
+
+\[
+\mathcal{L} = v^TAv + \lambda(1-v^Tv)
+\]
+
+where \(\lambda\in\mathbb{R}\) is the Lagrange multiplier.  From computing the derivatives of \(\mathcal{L}\) with respect to \((v, \lambda)\) and setting them to zero, we obtain the following necessary condition for (v, \(\lambda\)) to be an extremum of \(\mathcal{L}\).
+
+\[
+Av = \lambda v  \qquad \text{and} \qquad v^Tv = 1
+\]
+
+This means that v is an eigenvector of A with associated eigenvalue \(\lambda\).  Since the extremum is maximum, the optimal solution for v is given by the eigenvector of A associated with its largest eigenvalue \(\lambda=\lambda_1\).
+\\
+\\
+\textbf{b.}\\
+Similarly, here the extremum is minimum, the optimal solution for v is given by the eigenvector of A associated with its smallest eigenvalue \(\lambda = \lambda_n\).
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+\textbf{Solution}\\
+For the first inequility:
+\[
+\begin{split}
+\lambda_k(A+E) &= \max_{\text{dim}(V)=k} \min_{v\in V: \lVert v\rVert=1} v^T(A+E)v\\
+&= \max_{\text{dim}(V)=k} \min_{v\in V: \lVert v\rVert=1} v^TAv + v^TEv\\
+& \geq \max_{\text{dim}(V)=k}( \min_{v\in V: \lVert v\rVert=1} v^TAv + \min_{v\in V: \lVert v\rVert=1} v^TEv)\\
+& \geq \max_{\text{dim}(V)=k} \lambda_n(A) + \lambda_n(E)\\
+& \geq \lambda_k(A) + \lambda_k(E)\\
+& \geq \lambda_k(A) + \lambda_n(E)\\
+\end{split} 
+\]
+
+For the second inequility:
+\[
+\begin{split}
+\lambda_k(A+E) &= \min_{\text{dim}(V)=n-k+1} \max_{v\in V: \lVert v\rVert=1} v^T(A+E)v\\
+& = \min_{\text{dim}(V)=n-k+1} \max_{v\in V: \lVert v\rVert=1} v^TAv + v^TEv\\
+& \leq  \min_{\text{dim}(V)=n-k+1} (\max_{v\in V: \lVert v\rVert=1} v^TAv + \max_{v\in V: \lVert v\rVert=1} v^TEv)\\
+& \leq  \min_{\text{dim}(V)=n-k+1} \lambda_1(A) + \lambda_1(E)\\
+& \leq \lambda_1(A) + \lambda_1(E)\\
+& \leq \lambda_k(A) + \lambda_1(E)
+\end{split}
+\]
+
+
+\end{homeworkProblem}
+
+
+
+\begin{homeworkProblem}
+\textbf{Solution}
+All solutions are attached in the back.  The plots are displayed from top to bottom are mean face, first eigenface and second eigenface.  and faces of \(\mu+a_iu_i\) with various values with \(a_i\) are displayed.  The first row of each individual corresponds to the variation along \(u_1\), while the second row corresponds to the variation along \(u_2\).\\
+
+For the plots (a), we can learn that the first eigenface \(u_1\) differs from the mean face \(\mu\) in terms of the lack of illumination.  In some sense, they are almost the same.  On the other hand, \(u_2\) differs from \(\mu\) in terms of it illumination from the right.\\
+
+For the plots (b) we can clearly see that, for all three individuals, the first eigenface \(u_1\) captures the information about the horizontal illumination, while the second eigenface \(u_2\) captures that about the vertical illumination.
+
+
+
+\end{homeworkProblem}
+
+\includepdf[page={-}]{Untitled1.pdf}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

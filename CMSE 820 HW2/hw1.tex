@@ -1,0 +1,302 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#2}
+\newcommand{\hmwkDueDate}{September 21, 2019}
+\newcommand{\hmwkClass}{CMSE 820}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassInstructor}{Professor Yuying Xie}
+\newcommand{\hmwkAuthorName}{\textbf{Boyao Zhu}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 11:59pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}} 
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+    \textbf{Solution}
+    \\
+    Properties of Norm\\
+    Let V be a vector space, \(\lVert\cdot\rVert: V\to \mathbb{R}\) is a norm: 
+    \begin{itemize}
+        \item \(\forall v\in V: \lVert v\rVert \geq 0\) and \(\lVert v\rVert\ = 0 \iff v=0\) (positive/definite)
+        \item \(\forall v\in V, \lambda\in\mathbb{R}: \lvert\lambda\rvert\lVert v\rVert=\lVert\lambda v\rVert\) (absolutely scaleable)
+        \item \(\forall v,w\in V: \lVert v+w \rVert\leq\lVert v\rVert + \lVert w\rVert\) (Triangle inequality)
+    \end{itemize}
+    
+    For any give norm \(\lVert\cdot\rVert\) and radius \(r>0\), the norm ball \(B(r)=\{x: \lVert x \rVert\leq r, x\in\mathbb{R}^p\}\). \(\forall x, y \in B(r)\), \(\forall t\in[0,1]\), by the triangle inequality and the absolutely scaleable for norms, we have
+    \[
+    \lVert tx+(1-t)y\rVert \leq t\lVert x\rVert + (1-t)\lVert y\rVert \leq r
+    \]
+    It follows that \(tx+(1-t)y\in B(r)\), and hence \(B(r)\) is a convex set.
+
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    \textbf{Solution}
+    \\
+    Suppose there were two optimal solutions \(x, y\in \mathbb{R}^n\).  This means that \(x,y\in\Omega\) and 
+    \[
+    f(x)=f(y)\leq f(z), \forall z\in\Omega
+    \]
+    But consider \(z=\frac{x+y}{2}\).  By convexity of \(\Omega\), we have \(z\in\Omega\).  By strict convexity, we have
+    \[
+        \begin{split}
+            f(z)&=f\left(\frac{x+y}{2}\right)\\
+    		&\leq \frac{1}{2}f(x)+\frac{1}{2}f(y)\\
+    		&=\frac{1}f(x) + \frac{1}{2}f(x)\\
+    		&=f(x)
+	\end{split}
+    \]
+    This contradicts.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    \textbf{Solution}\\
+    \(f(x)=\lvert x\rvert\).  We want to show that \(\partial f(0)=[-1,1]\).  It is trivial to see that 
+    \[
+    \forall x\in \mathbb{R}, \forall c\in[-1,1], f(x)-cx = \begin{cases} (1-c)x\geq0, x\geq0 \\
+    -(1+c)x\geq0, x<0 \end{cases}
+    \]
+    So \([-1,1]\subseteq\partial f(0)\).  Now consider any \(c'>1\).  Fixing \(x=1\), we see that \(f(1)<c'*1\), so \((1,\infty)\cap\partial f(0)=\O\).
+    To sum up, \(\partial f(0)=[-1,1]\).
+   
+\end{homeworkProblem}
+
+
+
+\begin{homeworkProblem}
+    \textbf{Solution}\\
+    \(g(x)\) is affine \(\Longrightarrow \exists\) a linear function \(L(x)\) such that \(g(x)=L(x)+b\), where \(b=g(0)\).
+    \\
+    \(\forall x,y\in \mathbb{R}^n\), \(\forall t\in[-1,1]\), we have
+    \[
+        \begin{split}
+        g(tx+(1-t)y) &= L(tx+(1-t)y)+b\\
+        &= tL(x)+(1-t)L(y)+tb+(1-t)b\\
+        &= t[L(x)+b]+(1-t)[L(y)+b]\\
+        &= tg(x)+(1-t)g(y)\\
+        &= 0
+        \end{split}
+    \]
+    which implies that \(tx+(1-t)y\in A\), and hence \(A\) is convex.
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+    \textbf{Solution}\\
+    \textbf{5.1}\\
+    Let \(\tilde{\textbf{y}} = [\textbf{y}^T \mid  \textbf{0}^T]\in \mathbb{R}^{n+p}\) and \(\tilde{\textbf{X}}=[\textbf{X}\mid\sqrt{\lambda}\textbf{I}]\in\mathbb{R}^{p\times (n+p)}\).
+    \[
+    \tilde{y}-\tilde{X}^T\beta =    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+          \textbf{y} \\
+          \textbf{0} \\ 
+       \end{bmatrix}
+       -  
+       \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+             \textbf{X}^T \beta  \\
+             \sqrt{\lambda}\textbf{I}\beta \\
+       \end{bmatrix}
+       =
+       \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+             \textbf{y}-\textbf{X}^T\beta\\
+             -\sqrt{\lambda}\textbf{I}\beta\\
+       \end{bmatrix}
+    \]
+
+    \[
+        \begin{split}
+        \hat{\beta}^{ols} &= \text{arg min}\lVert \tilde{y} - \tilde{X}^T\beta\rVert^2\\
+        &= \text{arg min} \{\lVert \tilde{y}-tilde{X}^T\beta\rVert^2+\lambda\lVert\beta\rVert^2\}\\
+        &= \hat{\beta}^{ridge}
+        \end{split}
+    \]
+    
+    \textbf{5.2}\\
+    \[
+    \tilde{X}^Tv =    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+          \textbf{X}^T \\
+          \sqrt{\lambda}\textbf{I}v \\
+       \end{bmatrix}
+       =
+       \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+          \textbf{0} \\
+          \textbf{0} \\
+       \end{bmatrix}  
+    \]
+    Note that since \(\sqrt{\lambda}\textbf{I}\) is full rank and \(\sqrt{\lambda}\textbf{I}v=0\), \(v\) must be the zero vector.  It follows immediately that \(\tilde{\textbf{X}}\) is full row-rank and \(\tilde{\textbf{X}}\tilde{\textbf{X}}^T\) is invertible, which implies that \(\hat{\beta}^{ols}\) corresponding to the predictor matrix \(\tilde{X}\) is unique.  According to (5.1), Ridge regression \(\hat{\beta}^{ridge}\) is unique.\\
+    \\
+    \textbf{5.3}\\
+    An explicit formula for \(\beta^{ridge}\):
+    \[
+    \beta^{ridge}=(\tilde{\textbf{X}}\tilde{\textbf{X}}^T)^{-1}\tilde{\textbf{X}}\tilde{y} =(\textbf{XX}^T+\lambda\textbf{I})^{-1}\textbf{Xy}
+    \]
+    Note that \(\hat{\beta}^{ridge}\) is linear in \(\textbf{y}\).  Therefore, \(\forall a^T\in\mathbb{R}^p\), \(a^T\hat{\beta}^{ridge}\) is also a linear function of \(\textbf{y}\)\\
+    \\
+    \textbf{5.4}\\
+    For any estimator \(\hat{\theta}, \text{MSE}(\hat{\theta})=\text{Var}(\hat{\theta})+\text{Bias}^2(\hat{\theta})\).  Since OLS estimators have the smallest variance among all linear unbiased estimators, and that Ridge estimators are also linear, it must be true that Ridge estimators are biased in order to have a smaller MSE than OLS ones.  That is, \(a^T\hat{\beta}^{ridge}\) is biased.\\
+ 
+     \textbf{5.5}\\
+     \[
+         \begin{split}
+         \hat{\beta}^{ridge} &= (\textbf{XX}^T+\lambda\textbf{I})^{-1}\textbf{Xy}\\
+         &= (UDV^TVDU^T+\lambda\textbf{I})^{-1}UDV^T\textbf{y}\\
+         &= (UD^2U^T+\lambda\textbf{I})^{-1}UDV^T\textbf{y} \\
+         &= (U(D^2+\lambda\textbf{I})U^T)^{-1}UDV^T\textbf{y}\\
+         &= U(D^2+\lambda\textbf{I})^{-1}U^TUDV^T\textbf{y}\\
+         &= U(D^2+\lambda\textbf{i})^{-1}DV^T\textbf{y}\\
+         &= U\Lambda V^T\textbf{y}
+         \end{split}
+     \]
+     where \(\Lambda=\text{diag} \Big\{ \frac{d_1}{d_1^2+\lambda}, \frac{d_2}{d_2^2+\lambda}, \cdot\cdot\cdot, \frac{d_r}{d_r^2+\lambda}\Big\}.\)\\
+     
+     \textbf{5.6}\\
+     \[
+     \begin{split}
+     \mathbb{E}(\hat{\beta}^{ridge}) &= (\textbf{XX}^T+\lambda\textbf{I})^{-1}\textbf{X}\mathbb{E}[\textbf{y}]\\
+     &= (\textbf{XX}^T+\lambda\textbf{I})^{-1}\textbf{XX}^T\beta^{\ast}\\
+     &= U(D^2+\lambda\textbf{I})^{-1}DV^TVDU^T\beta^{\ast}\\
+     &= U\tilde{D}U^T\beta^{\ast}
+     \end{split}
+     \]
+     where \(\tilde{D}=\text{diag} \Big\{ \frac{d_1^2}{d_1^2+\lambda}, \frac{d_2^2}{d_2^2+\lambda}, \cdot\cdot\cdot, \frac{d_r^2}{d_r^2+\lambda}\Big\}.\).\\
+     \[
+         \begin{split}
+         \lVert\mathbb{E}(\hat{\beta}^{ridge})\rVert&= \lVert U\tilde{D}U^T\beta^{\ast} \rVert \\
+         & = \lVert \tilde{D} \rVert\lVert\beta^{\ast}\rVert \\
+         &< \lVert\beta^{\ast}\rVert \Longrightarrow\mathbb{E}(\hat{\beta}^{ridge})\neq\beta^{\ast}.
+         \end{split}
+     \] 
+     where unitarity preserves norm, and 2-norm of a matrix equals its largest singular value.  That is \(\lVert \tilde{D}\rVert_2 \leq\) 1.
+\end{homeworkProblem}
+
+\end{document}

@@ -1,0 +1,222 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usetikzlibrary{automata,positioning}
+\usepackage{pdfpages}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#7}
+\newcommand{\hmwkDueDate}{Nov 3, 2019}
+\newcommand{\hmwkClass}{CMSE 820}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassInstructor}{Professor Yuying Xie}
+\newcommand{\hmwkAuthorName}{\textbf{Boyao Zhu}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 11:59pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+\textbf{Solution}\\
+
+Let \(k_1(\cdot,\cdot)\) and \(k_2(\cdot,\cdot)\) be two reproducing kernels associated with an arbitrary RKHS \(\mathcal{H}\) over \(\mathcal{X}\).  Note that \(\forall x\in \mathcal{X}, k_1(\cdot,x)\in \mathcal{H}\) and \(k_2(\cdot,x)\in\mathcal{H}\).  Moreover, by the reproducing property, we have
+\[
+\forall x,y\in \mathcal{X}, \quad k_1(x,y)=k_1(y,x)=\langle k_1(\cdot,x),k_2(\cdot,y)\rangle_{\mathcal{H}}=\langle k_2(\cdot,y),k_1(\cdot,x)\rangle_{\mathcal{H}} = k_2(x,y).
+\]
+So the reproducing kernel is unique.
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+\textbf{Solution}\\
+
+\(\forall N\in \mathbb{N}^+, \forall x_1, x_2, \cdot\cdot\cdot, x_N\in \mathcal{X}, \forall c_1, c_2, \cdot\cdot\cdot, c_N\in \mathbb{R}\)
+\[
+\underset{i,j}{\huge\sum}c_ic_jf(x_i)k(x_i,x_j)f(x_j) = \underset{i,j}{\huge\sum}[c_if(x_i)][c_jf(x_j)]k(x_i,x_j)\geq 0,
+\]
+which implies immediately the positive semi-definiteness of \(\tilde{k}(x,y)\). (The last inequality follows from the positive semi-definiteness of \(k(x,y)\).
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+\textbf{Solution}\\
+
+Rewrite the kernel function as 
+\[
+k(x,y) = \text{min}\{x,y\}=\int_0^1\textsf{1}_{[0,x]}(z)\textsf{1}_{[0,y]}(z)dz.
+\]
+\(\forall N\in\mathbb{N}^+, \forall x_1,x_2, \cdot\cdot\cdot, x_N\in[0,1], \forall c_1, c_2, \cdot\cdot\cdot, c_N\in\mathbb{R}\),
+\[
+\underset{i,j}{\huge\sum}c_ic_j\text{min}\{x_i, x_j\}=\underset{i,j}{\huge\sum}\int_0^1 [c_i\textsf{1}_{[0,x_i]}(z)][c_j\textsf{1}_{[0,x_j]}(z)]dz = \int_0^1[\underset{i}{\huge\sum}c_i\textsf{1}_{[0,x_i]}(z)]^2dz\geq 0.
+\]
+So \(k\) is positive semi-definite.
+\end{homeworkProblem}
+
+
+
+\begin{homeworkProblem}
+\textbf{Proof (1)}\\
+
+\(\forall x\in[0,1]\), we can define a function \(g_x(z) = \text{min}\{x, z\} = 
+\begin{cases} 
+z, & z\leq x \\ 
+x, & z>x
+\end{cases}\).  It is obvious that \(g_x'(z) = 
+\begin{cases}
+1, & z<x \\
+0, & z>x
+\end{cases}\) is bounded and continuous almost everywhere (except at \(z = x\)), and hence integrable on [0, 1], which shows the absolute continuity of \(g_x\).  Moreover, \(g_x(0) = 0\) so \(g_x\in \mathcal{H}^1\).\\
+Now consider the inner product \(\langle f, g_x\rangle_{\mathcal{H}^1}\) for any arbitrary \(x\in[0,1]\) and any \(f\in\mathcal{H}^1\).
+\[
+\langle f, g_x\rangle_{\mathcal{H}^1} = \int_0^x f'(z)\cdot 1dz + \int_x^1f'(z)\cdot 0 dz = \int_0^x f'(z)dz = f(x)
+\]
+
+\textbf{Proof (2)}\\
+
+The equation above allows us to rewrite the evaluational functional as \(\delta_x(f)=f(x) = \langle f, g_x\rangle_{\mathcal{H}^1}\).  We'll show that \(\delta_x\) is bounded.
+\[
+\forall f\in\mathcal{H}^1, \lvert\delta_x(f)\rvert = \lvert\langle(f, g_x\rangle_{\mathcal{H}^1}\rvert\leq \lVert g_x\rVert_{\mathcal{H}^1}\lVert f\rVert_{\mathcal{H}^1}
+\]
+The operator norm of \(\delta_x\)
+\[
+\lVert \delta_x\rVert \leq \lVert g_x \rVert_{\mathcal{H}^1}=(\langle g_x, g_x\rangle_{\mathcal{H}^1})^{\frac{1}{2}}=\sqrt{x}\leq 1.
+\]
+Thus, \(\delta_x\) is bounded and \(mathcal{H}^1\) is an RKHS.
+\end{homeworkProblem}
+
+
+
+
+
+
+
+
+
+
+\end{document}
